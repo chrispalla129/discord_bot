@@ -43,6 +43,7 @@ async def join(ctx):
     else: await ctx.send("Error.")
 
 async def start(ctx):
+
     global is_up
     global state
 
