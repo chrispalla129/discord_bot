@@ -18,7 +18,7 @@ async def connor(ctx):
     await ctx.send(response)
 
 @bot.command(name = 'kick')
-@has_permissions(admin = True, manage_messages=True, manage_roles = True)
+@has_permissions(administrator=True, manage_messages=True, manage_roles = True)
 async def mod_kick(ctx, member: discord.Member, *, reason = None):
     await ctx.send(f'{member} is a bitch')
     await member.kick(reason = reason)
