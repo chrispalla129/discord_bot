@@ -58,10 +58,14 @@ async def bang(ctx):
 
     if ctx.message.author != is_up: await ctx.message(f"It's not your turn yet @{ctx.message.author}, calm down.")
     else:
+        # if you lose, you get kicked
         if bulletPos == curPos:
-            member.kick(ctx.message.author)
+            await member.kick(ctx.message.author)
             await ctx.message(f"{ctx.message.author} lost")
+
+        # increment the current position, put the next person up, and put the person who just went is at the end
         else:
+            players.append(is_up)
             curPos += 1
             if curPos > 6: curPos = 1
             is_up = players.pop(0)
