@@ -44,8 +44,8 @@ async def join(ctx, member: discord.Member):
 async def start(ctx):
     global is_up
     random.shuffle(players)
-    # gotta make this global
     is_up = players.pop(0)
     await ctx.send(f"@{is_up} is up.")
 
-async def bang(ctx)
+async def bang(ctx):
+    global is_up
