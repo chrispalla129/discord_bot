@@ -10,6 +10,7 @@ global bulletPos
 global curPos
 global players
 global state
+global is_up
 
 async def init(ctx, member: discord.Member):
     global leader
@@ -21,7 +22,10 @@ async def init(ctx, member: discord.Member):
         ctx.send("Game already in progress.")
         return
 
+    # only leader can begin game
     leader = ctx.message.author
+
+    # bullet position and firing position, firing position will increment until it wraps during play
     bulletPos = random.randint(1, 6)
     curPos = random.randint(1, 6)
     state = "join"
@@ -33,9 +37,14 @@ async def join(ctx, member: discord.Member):
     global state
 
     if state == "join": players.append(member)
-    elif state is None: await ctx.send("Game not initialized. Please use 'roulette init' first.")
+    elif state is None: await ctx.send("Game not initialized. Please use '--roulette init' first.")
     elif state == "in progress": await ctx.send("Game already in progress.")
     else: await ctx.send("Error.")
 
 async def start(ctx):
+    random.shuffle(players)
+    # gotta make this global
+    is_up = players.pop(0)
+    await ctx.send(f"@{is_up} is up.")
 
+async def bang(ctx)
