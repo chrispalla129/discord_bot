@@ -17,6 +17,10 @@ async def init(ctx, member: discord.Member):
     global curPos
     global state
 
+    if state is None:
+        ctx.send("Game already in progress.")
+        return
+
     leader = ctx.message.author
     bulletPos = random.randint(1, 6)
     curPos = random.randint(1, 6)
@@ -26,8 +30,12 @@ async def init(ctx, member: discord.Member):
 
 async def join(ctx, member: discord.Member):
     global players
-    if state == "join": players.append(member)
+    global state
 
+    if state == "join": players.append(member)
+    elif state is None: await ctx.send("Game not initialized. Please use 'roulette init' first.")
+    elif state == "in progress": await ctx.send("Game already in progress.")
+    else: await ctx.send("Error.")
 
 async def start(ctx):
 
