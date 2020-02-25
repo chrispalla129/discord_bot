@@ -42,6 +42,7 @@ async def join(ctx, member: discord.Member):
     else: await ctx.send("Error.")
 
 async def start(ctx):
+    global is_up
     random.shuffle(players)
     # gotta make this global
     is_up = players.pop(0)
