@@ -4,6 +4,7 @@ import discord
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord.ext.commands import has_permissions, CheckFailure
+from src import Client
 
 global leader
 global bulletPos
@@ -52,3 +53,16 @@ async def start(ctx):
 
 async def bang(ctx):
     global is_up
+    global bulletPos
+    global curPos
+
+    if ctx.message.author != is_up: await ctx.message(f"It's not your turn yet @{ctx.message.author}, calm down.")
+    else:
+        if bulletPos == curPos:
+            member.kick(ctx.message.author)
+            await ctx.message(f"{ctx.message.author} lost")
+        else:
+            curPos += 1
+            if curPos > 6: curPos = 1
+            is_up = players.pop(0)
+            await ctx.message(f"@{is_up} is up.")
