@@ -29,9 +29,6 @@ async def join(ctx, member: discord.Member):
     if state == "join": players.append(member)
 
 
-async def play(ctx):
-
-
 async def start(ctx):
 
 
