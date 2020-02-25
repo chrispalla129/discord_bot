@@ -1,5 +1,5 @@
 import os
-
+from commands import russian
 import discord
 from dotenv import load_dotenv
 from discord.ext import commands
@@ -12,10 +12,24 @@ GUILD = os.getenv('DISCORD_GUILD')
 # bot init
 bot = commands.Bot('--')
 
+
 @bot.command(name = 'connor')
 async def connor(ctx):
     response = "The math man himself"
     await ctx.send(response)
+
+
+@bot.command(name = 'roulette')
+async def roulette(ctx, param):
+    if param == "init":
+        ctx
+    elif param == "join":
+        ctx
+    elif param == "start":
+        ctx
+    else: await ctx.send("Wrong command.")
+    await russian.hello(ctx)
+    #await ctx.send(param)
 
 @bot.command(name = 'kick')
 @has_permissions(administrator=True, manage_messages=True, manage_roles = True)
