@@ -37,6 +37,9 @@ async def join(ctx, member: discord.Member):
     elif state == "in progress": await ctx.send("Game already in progress.")
     else: await ctx.send("Error.")
 
+async def play(ctx):
+
+
 async def start(ctx):
 
 
