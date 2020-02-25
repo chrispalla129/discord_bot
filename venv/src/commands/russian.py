@@ -15,6 +15,7 @@ async def init(ctx, member: discord.Member):
     global leader
     global bulletPos
     global curPos
+    global state
 
     leader = ctx.message.author
     bulletPos = random.randint(1, 6)
@@ -25,7 +26,8 @@ async def init(ctx, member: discord.Member):
 
 async def join(ctx, member: discord.Member):
     global players
-    players.append(member)
+    if state == "join": players.append(member)
+
 
 async def start(ctx):
 
