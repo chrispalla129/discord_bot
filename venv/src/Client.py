@@ -2,31 +2,31 @@ import os
 
 import discord
 from dotenv import load_dotenv
+from discord.ext import commands
+from discord.ext.commands import has_permissions, CheckFailure
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
-client = discord.Client()
-
-
-@client.event
 # bot init
-async def on_ready():
-    print(f'{client.user} has connected to Discord!')
-    guild = discord.utils.find(lambda g: g.name == GUILD, client.guilds)
+bot = commands.Bot('--')
 
-    print(
-        f'{client.user} is connected to the following guild:\n'
-        f'{guild.name}(id: {guild.id})'
-    )
+@bot.command(name = 'connor')
+async def connor(ctx):
+    response = "The math man himself"
+    await ctx.send(response)
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    if message.content == 'Connor':
-        response = "The math man himself"
-        await message.channel.send(response)
+@bot.command(name = 'kick')
+@has_permissions(manage_messages=True, manage_roles = True)
+async def mod_kick(ctx, member: discord.Member, *, reason = None):
+    await ctx.send(f'{member} is a bitch')
+    await member.kick(reason = reason)
+    await ctx.send(f'{member} is gone.')
 
-client.run(token)
+@mod_kick.error
+async def mod_ban_error(ctx, error):
+    if isinstance(error, commands.CheckFailure):
+        await ctx.send('get the perm bub.')
+
+bot.run(token)
