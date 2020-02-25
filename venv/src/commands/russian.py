@@ -13,6 +13,7 @@ global players
 global state
 global is_up
 
+
 async def init(ctx):
     global leader
     global bulletPos
@@ -42,6 +43,7 @@ async def join(ctx):
     elif state == "in progress": await ctx.send("Game already in progress.")
     else: await ctx.send("Error.")
 
+
 async def start(ctx):
     global is_up
     global state
@@ -49,7 +51,9 @@ async def start(ctx):
     state = "in progress"
     random.shuffle(players)
     is_up = players.pop(0)
+    players.append(is_up)
     await ctx.send(f"@{is_up} is up.")
+
 
 async def bang(ctx):
     global is_up
@@ -65,8 +69,8 @@ async def bang(ctx):
 
         # increment the current position, put the next person up, and put the person who just went is at the end
         else:
-            players.append(is_up)
             curPos += 1
             if curPos > 6: curPos = 1
             is_up = players.pop(0)
+            players.append(is_up)
             await ctx.message(f"@{is_up} is up.")
