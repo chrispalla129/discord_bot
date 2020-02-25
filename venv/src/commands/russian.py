@@ -31,6 +31,3 @@ async def join(ctx, member: discord.Member):
 
 async def start(ctx):
 
-
-
-
