@@ -24,7 +24,7 @@ async def roulette(ctx, param="", punishment=""):
     sID = -1
 
     for channel in bot.get_all_channels():
-        if channel.name.lower() == "games": sID = channel.id
+        if channel.name.lower() == "games" or channel.name.lower() == "stuff": sID = channel.id
 
     if sID == -1:
         await ctx.send("Please make a text channel called 'games' for the bot to output into!")
