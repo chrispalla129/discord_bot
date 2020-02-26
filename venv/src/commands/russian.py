@@ -82,10 +82,10 @@ async def bang(ctx, channel):
 
     if ctx.message.author != is_up: await channel.send(f"It's not your turn yet @{ctx.message.author}, calm down.")
     else:
-        # if you lose, you get kicked
+        # if you lose, you get punished
         if bulletPos == curPos:
 
-            print(punishment)  # stores a custom punishment
+            await punishment  # stores a custom punishment
             await channel.send(f"{ctx.message.author} lost")
             await end(ctx)
 
