@@ -93,7 +93,11 @@ async def bang(ctx, channel):
             is_up = players.pop(0)
             players.append(is_up)
             await channel.send(f"@{is_up} is up.")
-
+@bang.error
+async def band_error(ctx, error):
+    if isinstance(error):
+        await ctx.send(f"I probably can't kick you, but you lose @{ctx.message.author}")
+        await end()
 
 async def end():
     global leader
