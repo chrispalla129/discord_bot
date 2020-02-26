@@ -23,7 +23,7 @@ async def init(ctx, channel, punish):
 
     if punish == "ban": punishment = member.ban(ctx.message.author)
     elif punish == "kick": punishment = member.kick(ctx.message.author)
-    else: punishment = channel.send(f"@{is_up} has been deaded")
+    else: punishment = channel.send(f"{ctx.message.author} has been deaded")
 
 
     if state is not None:

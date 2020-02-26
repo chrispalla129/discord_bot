@@ -21,8 +21,16 @@ async def connor(ctx):
 
 @bot.command(name='roulette')
 async def roulette(ctx, param="", punishment=""):
-    channel = bot.get_channel(682017264375169037)
+    sID = -1
 
+    for channel in bot.get_all_channels():
+        if channel.name.lower() == "games": sID = channel.id
+
+    if sID == -1:
+        await ctx.send("Please make a text channel called 'games' for the bot to output into!")
+        return
+
+    channel = bot.get_channel(sID)
     if channel != ctx.channel:
         await ctx.send("Please use the 'games' channel for this!")
         return
