@@ -12,11 +12,13 @@ GUILD = os.getenv('DISCORD_GUILD')
 # bot init
 bot = commands.Bot('--')
 
+
 # really more of a litmus test than anything, connor is the math guy for real tho.
 @bot.command(name='connor')
 async def connor(ctx):
     response = "The math man himself"
     await ctx.send(response)
+
 
 # russian roulette game
 @bot.command(name='roulette')
@@ -40,7 +42,7 @@ async def roulette(ctx, param="", punishment=""):
     elif param == "join":
         await russian.join(ctx, channel)
     elif param == "start":
-        await russian.start(ctx, channel)
+        await russian.start(channel)
     elif param == "pull":
         await russian.bang(ctx, channel)
     elif param == "help" or param == "":
@@ -48,10 +50,10 @@ async def roulette(ctx, param="", punishment=""):
                        "the punishment by adding 'ban', 'kick' or 'fun' after 'init' as well. \nOnce done, "
                        "players can join the game with '--roulette join'.\nOnce you have two or more players, start "
                        "the game with '--roulette start.\nAt this point, the bot will tell you who is up. Use "
-                       "--roulette to pull the trigger, and see who loses! Good luck! "
-                       )
+                       "--roulette to pull the trigger, and see who loses! Good luck! ")
     else:
         await ctx.send("Wrong command.")
+
 
 # command to kick a given user.
 @bot.command(name='kick')
