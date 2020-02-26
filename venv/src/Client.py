@@ -57,7 +57,7 @@ async def roulette(ctx, param="", punishment=""):
 @bot.command(name='kick')
 @has_permissions(administrator=True, manage_messages=True, manage_roles=True)
 async def mod_kick(ctx, member: discord.Member, *, reason=None):
-
+    await ctx.send(f"{member} will now die")
     await member.kick(reason=reason)
     await ctx.send(f"{member} is gone.")
 
