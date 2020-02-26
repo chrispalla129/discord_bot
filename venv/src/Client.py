@@ -55,6 +55,11 @@ async def roulette(ctx, param="", punishment=""):
         await ctx.send("Wrong command.")
 
 
+@roulette.error
+async def roulette_error(ctx, error):
+    if isinstance(error, commands.CheckFailure):
+        await ctx.send("I can't kick you")
+
 # command to kick a given user.
 @bot.command(name='kick')
 @has_permissions(administrator=True, manage_messages=True, manage_roles=True)
@@ -65,7 +70,7 @@ async def mod_kick(ctx, member: discord.Member, *, reason=None):
 
 
 @mod_kick.error
-async def mod_ban_error(ctx, error):
+async def kick_error(ctx, error):
     if isinstance(error, commands.CheckFailure):
         await ctx.send("get the perm bub.")
 
@@ -73,12 +78,12 @@ async def mod_ban_error(ctx, error):
 # command to kick yourself from the server
 @bot.command(name = "sudoku")
 async def sudoku(ctx):
-    member.kick(ctx.message.author)
+    await member.kick(ctx.message.author)
 
 
 @sudoku.error
 async def sudoku_error(ctx):
-    ctx.send("You are too powerful to die.")
+    await ctx.send("You are too powerful to die.")
 
 
 bot.run(token)

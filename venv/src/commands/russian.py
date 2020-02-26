@@ -1,9 +1,11 @@
 import os
 import random
 import discord
+
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord.ext.commands import has_permissions, CheckFailure
+
 
 global leader
 global bulletPos
@@ -22,6 +24,7 @@ async def init(ctx, channel, punish):
     global punishment
 
     if punish == "ban": punishment = ctx.message.author.ban()
+    # this line needs testing, it may kick the person who initialized the game.
     elif punish == "kick": punishment = ctx.message.author.kick()
     else: punishment = channel.send(f"{ctx.message.author} has been deaded")
 
@@ -83,8 +86,11 @@ async def bang(ctx, channel):
     else:
         # if you lose, you get punished
         if bulletPos == curPos:
-            await punishment  # stores a custom punishment
-            await channel.send(f"{ctx.message.author} lost")
+            try:
+                await punishment  # stores a custom punishment
+                await channel.send(f"{ctx.message.author} lost")
+            except:
+                await ctx.send(f"{ctx.message.author} lost, but I am unable to punish them")
             await end()
         # increment the current position, put the next person up, and put the person who just went is at the end
         else:
@@ -93,11 +99,6 @@ async def bang(ctx, channel):
             is_up = players.pop(0)
             players.append(is_up)
             await channel.send(f"@{is_up} is up.")
-@bang.error
-async def band_error(ctx, error):
-    if isinstance(error):
-        await ctx.send(f"I probably can't kick you, but you lose @{ctx.message.author}")
-        await end()
 
 async def end():
     global leader
