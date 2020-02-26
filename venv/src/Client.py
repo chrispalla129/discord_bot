@@ -72,7 +72,7 @@ async def mod_ban_error(ctx, error):
 async def sudoku(ctx):
     member.kick(ctx.message.author)
 
-@sudoku_error
+@sudoku.error
 async def sudoku_error(ctx, error):
     ctx.send('You are too powerful to die.')
 
