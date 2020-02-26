@@ -67,13 +67,15 @@ async def mod_ban_error(ctx, error):
     if isinstance(error, commands.CheckFailure):
         await ctx.send("get the perm bub.")
 
+
 # command to kick yourself from the server
 @bot.command(name = "sudoku")
 async def sudoku(ctx):
     member.kick(ctx.message.author)
 
-@sudoku_error
-async def sudoku_error(ctx, error):
+
+@sudoku.error
+async def sudoku_error(ctx):
     ctx.send("You are too powerful to die.")
 
 
