@@ -4,24 +4,30 @@ import discord
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord.ext.commands import has_permissions, CheckFailure
-from src import Client
+
 
 global leader
 global bulletPos
 global curPos
-global players
-global state
+players = list()
+state = None
 global is_up
+global punishment
 
-
-async def init(ctx):
+async def init(ctx, channel, punish):
     global leader
     global bulletPos
     global curPos
     global state
+    global punishment
 
-    if state is None:
-        ctx.send("Game already in progress.")
+    if punish == "ban": punishment = member.ban(ctx.message.author)
+    elif punish == "kick": punishment = member.kick(ctx.message.author)
+    else: punishment = channel.send(f"@{is_up} has been deaded")
+
+
+    if state is not None:
+        await channel.send("Game already in progress.")
         return
 
     # only leader can begin game
@@ -31,41 +37,57 @@ async def init(ctx):
     bulletPos = random.randint(1, 6)
     curPos = random.randint(1, 6)
     state = "join"
-    await ctx.send("Game Initialized! Join with '--roulette join' to play.")
+    await channel.send("Game Initialized! Join with '--roulette join' to play.")
 
 
-async def join(ctx):
+async def join(ctx, channel):
     global players
     global state
 
     if state == "join": players.append(ctx.message.author)
-    elif state is None: await ctx.send("Game not initialized. Please use '--roulette init' first.")
-    elif state == "in progress": await ctx.send("Game already in progress.")
-    else: await ctx.send("Error.")
+    elif state is None: await channel.send("Game not initialized. Please use '--roulette init' first.")
+    elif state == "in progress": await channel.send("Game already in progress.")
+    else: await channel.send("Error.")
 
 
-async def start(ctx):
+async def start(ctx, channel):
     global is_up
     global state
+    global players
+
+    if state != "join":
+        await channel.send("Game not in joining state. Use --roulette init first")
+        return
+    if len(players) < 2:
+        await channel.send("Not enough players, need at least 2 to play.")
+        return
 
     state = "in progress"
     random.shuffle(players)
     is_up = players.pop(0)
     players.append(is_up)
-    await ctx.send(f"@{is_up} is up.")
+    await channel.send(f"@{is_up} is up.")
 
 
-async def bang(ctx):
+async def bang(ctx, channel):
     global is_up
     global bulletPos
     global curPos
+    global state
+    global punishment
 
-    if ctx.message.author != is_up: await ctx.message(f"It's not your turn yet @{ctx.message.author}, calm down.")
+    if state != "in progress":
+        await channel.send("Game must be in progress.")
+        return
+
+    if ctx.message.author != is_up: await channel.send(f"It's not your turn yet @{ctx.message.author}, calm down.")
     else:
         # if you lose, you get kicked
         if bulletPos == curPos:
-            await member.kick(ctx.message.author)
-            await ctx.message(f"{ctx.message.author} lost")
+
+            print(punishment)  # stores a custom punishment
+            await channel.send(f"{ctx.message.author} lost")
+            await end(ctx)
 
         # increment the current position, put the next person up, and put the person who just went is at the end
         else:
@@ -73,4 +95,20 @@ async def bang(ctx):
             if curPos > 6: curPos = 1
             is_up = players.pop(0)
             players.append(is_up)
-            await ctx.message(f"@{is_up} is up.")
+            await channel.send(f"@{is_up} is up.")
+
+
+async def end(ctx):
+    global leader
+    global bulletPos
+    global curPos
+    global players
+    global state
+    global is_up
+
+    leader = None
+    bulletPos = None
+    curPos = None
+    players = list()
+    state = None
+    is_up = None
