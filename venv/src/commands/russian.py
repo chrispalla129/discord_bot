@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 from discord.ext import commands
 from discord.ext.commands import has_permissions, CheckFailure
 
-
 global leader
 global bulletPos
 global curPos
@@ -13,6 +12,7 @@ players = list()
 state = None
 global is_up
 global punishment
+
 
 async def init(ctx, channel, punish):
     global leader
@@ -24,7 +24,6 @@ async def init(ctx, channel, punish):
     if punish == "ban": punishment = ctx.message.author.ban()
     elif punish == "kick": punishment = ctx.message.author.kick()
     else: punishment = channel.send(f"{ctx.message.author} has been deaded")
-
 
     if state is not None:
         await channel.send("Game already in progress.")
@@ -50,7 +49,7 @@ async def join(ctx, channel):
     else: await channel.send("Error.")
 
 
-async def start(ctx, channel):
+async def start(channel):
     global is_up
     global state
     global players
@@ -84,11 +83,9 @@ async def bang(ctx, channel):
     else:
         # if you lose, you get punished
         if bulletPos == curPos:
-
             await punishment  # stores a custom punishment
             await channel.send(f"{ctx.message.author} lost")
-            await end(ctx)
-
+            await end()
         # increment the current position, put the next person up, and put the person who just went is at the end
         else:
             curPos += 1
@@ -98,7 +95,7 @@ async def bang(ctx, channel):
             await channel.send(f"@{is_up} is up.")
 
 
-async def end(ctx):
+async def end():
     global leader
     global bulletPos
     global curPos
