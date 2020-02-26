@@ -21,8 +21,8 @@ async def init(ctx, channel, punish):
     global state
     global punishment
 
-    if punish == "ban": punishment = member.ban(ctx.message.author)
-    elif punish == "kick": punishment = member.kick(ctx.message.author)
+    if punish == "ban": punishment = ctx.message.author.ban()
+    elif punish == "kick": punishment = ctx.message.author.kick()
     else: punishment = channel.send(f"{ctx.message.author} has been deaded")
 
 
