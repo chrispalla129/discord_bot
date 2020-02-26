@@ -12,13 +12,13 @@ GUILD = os.getenv('DISCORD_GUILD')
 # bot init
 bot = commands.Bot('--')
 
-
+# really more of a litmus test than anything, connor is the math guy for real tho.
 @bot.command(name='connor')
 async def connor(ctx):
     response = "The math man himself"
     await ctx.send(response)
 
-
+# russian roulette game
 @bot.command(name='roulette')
 async def roulette(ctx, param="", punishment=""):
     channel = bot.get_channel(682017264375169037)
@@ -45,11 +45,11 @@ async def roulette(ctx, param="", punishment=""):
     else:
         await ctx.send("Wrong command.")
 
-
+# command to kick a given user.
 @bot.command(name='kick')
 @has_permissions(administrator=True, manage_messages=True, manage_roles=True)
 async def mod_kick(ctx, member: discord.Member, *, reason=None):
-    await ctx.send(f'{member} is a bitch')
+    await ctx.send(f'{member} will now die')
     await member.kick(reason=reason)
     await ctx.send(f'{member} is gone.')
 
@@ -58,6 +58,15 @@ async def mod_kick(ctx, member: discord.Member, *, reason=None):
 async def mod_ban_error(ctx, error):
     if isinstance(error, commands.CheckFailure):
         await ctx.send('get the perm bub.')
+
+# command to kick yourself from the server
+@bot.command(name = 'sudoku')
+async def sudoku(ctx):
+    member.kick(ctx.message.author)
+
+@sudoku_error
+async def sudoku_error(ctx, error):
+    ctx.send('You are too powerful to die.')
 
 
 bot.run(token)
