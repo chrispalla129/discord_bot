@@ -23,11 +23,9 @@ async def init(ctx, channel, punish):
     global state
     global punishment
 
-    if punish == "ban":
-        print("ban")
-    # this line needs testing, it may kick the person who initialized the game.
-    elif punish == "kick":
-        print("kick")
+    if punish == "ban": punishment = "ban"
+
+    elif punish == "kick": punishment = "kick"
     else: punishment = channel.send(f"{ctx.message.author.mention} has been deaded")
 
     if state is not None:
@@ -91,12 +89,12 @@ async def bang(ctx, channel):
         # if you lose, you get punished
         if bulletPos == curPos:
             try:
-                await channel.send(f"{ctx.message.author.mention} lost")
                 if punishment == "ban": await ctx.message.author.ban()
                 elif punishment == "kick": await ctx.message.author.kick()
-                else: await ctx.message.author.punish # stores a custom punishment
-            except:
+                await channel.send(f"{ctx.message.author.mention} lost")
+            except disocrd.Forbidden:
                 await ctx.send(f"{ctx.message.author.mention} lost, but I am unable to punish them. They smell really bad.")
+                print(response)
             await end()
         # increment the current position, put the next person up, and put the person who just went is at the end
         else:
