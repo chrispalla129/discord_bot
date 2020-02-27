@@ -78,7 +78,7 @@ async def kick_error(ctx, error):
 # command to kick yourself from the server
 @bot.command(name = "sudoku")
 async def sudoku(ctx):
-    await member.kick(ctx.message.author)
+    await ctx.message.author.kick()
 
 
 @sudoku.error

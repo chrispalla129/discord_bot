@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from discord.ext import commands
 from discord.ext.commands import has_permissions, CheckFailure
 
-
+# copyright julius breindl and not christian cp palladino
 global leader
 global bulletPos
 global curPos
@@ -23,10 +23,12 @@ async def init(ctx, channel, punish):
     global state
     global punishment
 
-    if punish == "ban": punishment = ctx.message.author.ban()
+    if punish == "ban":
+        print("ban")
     # this line needs testing, it may kick the person who initialized the game.
-    elif punish == "kick": punishment = ctx.message.author.kick()
-    else: punishment = channel.send(f"{ctx.message.author} has been deaded")
+    elif punish == "kick":
+        print("kick")
+    else: punishment = channel.send(f"{ctx.message.author.mention} has been deaded")
 
     if state is not None:
         await channel.send("Game already in progress.")
@@ -46,7 +48,9 @@ async def join(ctx, channel):
     global players
     global state
 
-    if state == "join": players.append(ctx.message.author)
+    if state == "join":
+        players.append(ctx.message.author)
+        await bot.add_reaction(ctx.message, ":gun:")
     elif state is None: await channel.send("Game not initialized. Please use '--roulette init' first.")
     elif state == "in progress": await channel.send("Game already in progress.")
     else: await channel.send("Error.")
@@ -68,7 +72,7 @@ async def start(channel):
     random.shuffle(players)
     is_up = players.pop(0)
     players.append(is_up)
-    await channel.send(f"@{is_up} is up.")
+    await channel.send(f"{is_up.mention} is up.")
 
 
 async def bang(ctx, channel):
@@ -82,15 +86,17 @@ async def bang(ctx, channel):
         await channel.send("Game must be in progress.")
         return
 
-    if ctx.message.author != is_up: await channel.send(f"It's not your turn yet @{ctx.message.author}, calm down.")
+    if ctx.message.author != is_up: await channel.send(f"It's not your turn yet {ctx.message.author.mention}, calm down.")
     else:
         # if you lose, you get punished
         if bulletPos == curPos:
             try:
-                await punishment  # stores a custom punishment
-                await channel.send(f"{ctx.message.author} lost")
+                await channel.send(f"{ctx.message.author.mention} lost")
+                if punishment == "ban": await ctx.message.author.ban()
+                elif punishment == "kick": await ctx.message.author.kick()
+                else: await ctx.message.author.punish # stores a custom punishment
             except:
-                await ctx.send(f"{ctx.message.author} lost, but I am unable to punish them")
+                await ctx.send(f"{ctx.message.author.mention} lost, but I am unable to punish them. They smell really bad.")
             await end()
         # increment the current position, put the next person up, and put the person who just went is at the end
         else:
@@ -98,7 +104,7 @@ async def bang(ctx, channel):
             if curPos > 6: curPos = 1
             is_up = players.pop(0)
             players.append(is_up)
-            await channel.send(f"@{is_up} is up.")
+            await channel.send(f"{is_up.mention} is up.")
 
 async def end():
     global leader
