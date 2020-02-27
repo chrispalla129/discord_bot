@@ -39,6 +39,7 @@ async def init(ctx, channel, punish):
     bulletPos = random.randint(1, 6)
     curPos = random.randint(1, 6)
     state = "join"
+    players.append(leader)
     await channel.send("Game Initialized! Join with '--roulette join' to play.")
 
 
@@ -46,11 +47,12 @@ async def join(ctx, channel):
     global players
     global state
 
-    if state == "join":
+    if state == "join" and not ctx.message.author in players:
         players.append(ctx.message.author)
-        await bot.add_reaction(ctx.message, ":gun:")
+        await bot.add_reaction(ctx.message, "\U0001F595")
     elif state is None: await channel.send("Game not initialized. Please use '--roulette init' first.")
     elif state == "in progress": await channel.send("Game already in progress.")
+    elif ctx.message.author in players: await ctx.send(f"You're already in pal {ctx.message.author.mention}")
     else: await channel.send("Error.")
 
 
@@ -86,14 +88,14 @@ async def bang(ctx, channel):
 
     if ctx.message.author != is_up: await channel.send(f"It's not your turn yet {ctx.message.author.mention}, calm down.")
     else:
-        # if you lose, you get punished
+        # if you lose, punish
         if bulletPos == curPos:
             try:
                 if punishment == "ban": await ctx.message.author.ban()
                 elif punishment == "kick": await ctx.message.author.kick()
                 await channel.send(f"{ctx.message.author.mention} lost")
             except disocrd.Forbidden:
-                await ctx.send(f"{ctx.message.author.mention} lost, but I am unable to punish them. They smell really bad.")
+                await ctx.send(f"{ctx.message.author.mention} lost, but I am unable to punish them. They smell really bad though.")
                 print(response)
             await end()
         # increment the current position, put the next person up, and put the person who just went is at the end
