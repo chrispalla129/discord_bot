@@ -12,7 +12,7 @@ token = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 
 # bot init
-bot = commands.Bot('--')
+bot = commands.Bot('$')
 
 
 # really more of a litmus test than anything, connor is the math guy for real tho.
