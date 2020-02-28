@@ -49,7 +49,7 @@ async def join(ctx, channel):
 
     if state == "join" and not ctx.message.author in players:
         players.append(ctx.message.author)
-        await bot.add_reaction(ctx.message, "\U0001F595")
+        await bot.add_reaction(ctx.message, "🔫")
     elif state is None: await channel.send("Game not initialized. Please use '--roulette init' first.")
     elif state == "in progress": await channel.send("Game already in progress.")
     elif ctx.message.author in players: await ctx.send(f"You're already in pal {ctx.message.author.mention}")
@@ -94,7 +94,7 @@ async def bang(ctx, channel):
                 if punishment == "ban": await ctx.message.author.ban()
                 elif punishment == "kick": await ctx.message.author.kick()
                 await channel.send(f"{ctx.message.author.mention} lost")
-            except disocrd.Forbidden:
+            except:
                 await ctx.send(f"{ctx.message.author.mention} lost, but I am unable to punish them. They smell really bad though.")
                 print(response)
             await end()
