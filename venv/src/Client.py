@@ -4,6 +4,8 @@ import discord
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord.ext.commands import has_permissions, CheckFailure
+import media
+
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
