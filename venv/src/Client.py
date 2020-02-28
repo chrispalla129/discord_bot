@@ -69,9 +69,11 @@ async def hey(ctx):
 async def join(ctx):
     channel = ctx.author.voice.channel
     await channel.connect()
+
 @bot.command()
 async def leave(ctx):
     await ctx.voice_client.disconnect()
+
 # command to kick a given user.
 @bot.command(name='kick')
 @has_permissions(administrator=True, manage_messages=True, manage_roles=True)
