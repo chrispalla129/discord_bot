@@ -51,10 +51,27 @@ async def roulette(ctx, param="", punishment=""):
                        "players can join the game with '--roulette join'.\nOnce you have two or more players, start "
                        "the game with '--roulette start.\nAt this point, the bot will tell you who is up. Use "
                        "--roulette to pull the trigger, and see who loses! Good luck! ")
-    else:
-        await ctx.send("Wrong command.")
+    else: await ctx.send("Wrong command.")
 
 
+@roulette.error
+async def roulette_error(ctx, error):
+    if isinstance(error, commands.CheckFailure):
+        await ctx.send("I can't kick you")
+
+
+@bot.command(name="hey")
+async def hey(ctx):
+    await join(ctx)
+
+
+@bot.command()
+async def join(ctx):
+    channel = ctx.author.voice.channel
+    await channel.connect()
+@bot.command()
+async def leave(ctx):
+    await ctx.voice_client.disconnect()
 # command to kick a given user.
 @bot.command(name='kick')
 @has_permissions(administrator=True, manage_messages=True, manage_roles=True)
