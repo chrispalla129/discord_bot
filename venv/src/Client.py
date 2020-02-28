@@ -48,11 +48,11 @@ async def roulette(ctx, param="", punishment=""):
     elif param == "pull":
         await russian.bang(ctx, channel)
     elif param == "help" or param == "":
-        await ctx.send("Welcome to russian roulette!\nInitialize the game with '--roulette init'.\nYou can specify "
+        await ctx.send("Welcome to russian roulette!\nInitialize the game with '$roulette init'.\nYou can specify "
                        "the punishment by adding 'ban', 'kick' or 'fun' after 'init' as well. \nOnce done, "
-                       "players can join the game with '--roulette join'.\nOnce you have two or more players, start "
-                       "the game with '--roulette start.\nAt this point, the bot will tell you who is up. Use "
-                       "--roulette to pull the trigger, and see who loses! Good luck! ")
+                       "players can join the game with '$roulette join'.\nOnce you have two or more players, start "
+                       "the game with '$roulette start.\nAt this point, the bot will tell you who is up. Use "
+                       "$roulette to pull the trigger, and see who loses! Good luck! ")
     else: await ctx.send("Wrong command.")
 
 
