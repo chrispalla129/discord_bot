@@ -55,11 +55,6 @@ async def roulette(ctx, param="", punishment=""):
         await ctx.send("Wrong command.")
 
 
-@roulette.error
-async def roulette_error(ctx, error):
-    if isinstance(error, commands.CheckFailure):
-        await ctx.send("I can't kick you")
-
 # command to kick a given user.
 @bot.command(name='kick')
 @has_permissions(administrator=True, manage_messages=True, manage_roles=True)

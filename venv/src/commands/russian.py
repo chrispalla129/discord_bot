@@ -49,7 +49,7 @@ async def join(ctx, channel):
 
     if state == "join" and not ctx.message.author in players:
         players.append(ctx.message.author)
-        await bot.add_reaction(ctx.message, "🔫")
+        await ctx.message.add_reaction("🔫")
     elif state is None: await channel.send("Game not initialized. Please use '--roulette init' first.")
     elif state == "in progress": await channel.send("Game already in progress.")
     elif ctx.message.author in players: await ctx.send(f"You're already in pal {ctx.message.author.mention}")
@@ -105,6 +105,7 @@ async def bang(ctx, channel):
             is_up = players.pop(0)
             players.append(is_up)
             await channel.send(f"{is_up.mention} is up.")
+
 
 async def end():
     global leader
