@@ -47,7 +47,7 @@ async def join(ctx, channel):
     global players
     global state
 
-    if state == "join" and length(players) >= 6 and ctx.message.author not in players:
+    if state == "join" and length(players) <= 6 and ctx.message.author not in players:
         players.append(ctx.message.author)
         await ctx.message.add_reaction("\U0001F595")
     elif state is None: await channel.send("Game not initialized. Please use '--roulette init' first.")
