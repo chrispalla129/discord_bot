@@ -65,8 +65,7 @@ async def roulette_error(ctx, error):
 @bot.command(name="hey")
 async def hey(ctx):
     voice = await ctx.author.voice.channel.connect()
-    voice.play(discord.FFmpegPCMAudio('./media/torture_dance.mp3'))
-    await leave(ctx)
+    voice.play(discord.FFmpegPCMAudio('yeet'))
 
 
 @bot.command()
