@@ -4,8 +4,6 @@ import discord
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord.ext.commands import has_permissions, CheckFailure
-import media
-
 
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
@@ -64,8 +62,14 @@ async def roulette_error(ctx, error):
 
 @bot.command(name="hey")
 async def hey(ctx):
-    voice = await ctx.author.voice.channel.connect()
-    voice.play(discord.FFmpegPCMAudio('yeet'))
+    voice = ctx.author.voice.channel
+    await voice.connect()
+    player = voice.play(discord.FFmpegOCMAudio('media\yeet.mp3'))
+    player.start()
+    while not player.isDone():
+        await asyncio.sleep(1)
+    player.stop()
+    await voice.disconnect()
 
 
 @bot.command()
