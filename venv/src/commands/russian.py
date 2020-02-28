@@ -40,7 +40,7 @@ async def init(ctx, channel, punish):
     curPos = random.randint(1, 6)
     state = "join"
     players.append(leader)
-    await channel.send("Game Initialized! Join with '--roulette join' to play.")
+    await channel.send("Game Initialized! Join with '$roulette join' to play.")
 
 
 async def join(ctx, channel):
@@ -50,7 +50,7 @@ async def join(ctx, channel):
     if state == "join" and len(players) <= 6 and ctx.message.author not in players:
         players.append(ctx.message.author)
         await ctx.message.add_reaction("\U0001F595")
-    elif state is None: await channel.send("Game not initialized. Please use '--roulette init' first.")
+    elif state is None: await channel.send("Game not initialized. Please use '$roulette init' first.")
     elif state == "in progress": await channel.send("Game already in progress.")
     elif ctx.message.author in players: await ctx.send(f"You're already in pal {ctx.message.author.mention}")
     else: await channel.send("Error.")
@@ -62,7 +62,7 @@ async def start(channel):
     global players
 
     if state != "join":
-        await channel.send("Game not in joining state. Use --roulette init first")
+        await channel.send("Game not in joining state. Use $roulette init first")
         return
     if len(players) < 2:
         await channel.send("Not enough players, need at least 2 to play.")
