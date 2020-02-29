@@ -1,6 +1,8 @@
 import os
 from commands import russian
 import discord
+import youtube_dl
+from discord import FFmpegAudio
 from dotenv import load_dotenv
 from discord.ext import commands
 from discord.ext.commands import has_permissions, CheckFailure
@@ -28,11 +30,11 @@ async def roulette(ctx, param="", punishment=""):
     for channel in bot.get_all_channels():
         if channel.name.lower() == "games" or channel.name.lower() == "stuff": sID = channel.id
 
-    if sID == -1:
+    '''if sID == -1:
         await ctx.send("Please make a text channel called 'games' for the bot to output into!")
         return
-
-    channel = bot.get_channel(sID)
+'''
+    channel = ctx.channel
     if channel != ctx.channel:
         await ctx.send("Please use the 'games' channel for this!")
         return
@@ -62,9 +64,9 @@ async def roulette_error(ctx, error):
 
 @bot.command(name="hey")
 async def hey(ctx):
-    voice = ctx.author.voice.channel
-    await voice.connect()
-    player = voice.play(discord.FFmpegOCMAudio('media\yeet.mp3'))
+    voice = await ctx.message.author.voice.channel.connect()
+    file = ffmpeg
+    player = await voice.play(create_ytdl_player('https://www.youtube.com/watch?v=UAEpClFyGKU'))
     player.start()
     while not player.isDone():
         await asyncio.sleep(1)
@@ -81,23 +83,21 @@ async def join(ctx):
 async def leave(ctx):
     await ctx.voice_client.disconnect()
 
+
 # command to kick a given user.
 @bot.command(name='kick')
 @has_permissions(administrator=True, manage_messages=True, manage_roles=True)
 async def mod_kick(ctx, member: discord.Member, *, reason=None):
-    await ctx.send(f"{member} will now die")
-    await member.kick(reason=reason)
-    await ctx.send(f"{member} is gone.")
-
-
-@mod_kick.error
-async def kick_error(ctx, error):
-    if isinstance(error, commands.CheckFailure):
-        await ctx.send("get the perm bub.")
+    await ctx.send(f"{member.mention} will now die")
+    try:
+        await member.kick(reason=reason)
+        await ctx.send(f"{member.mention} is gone.")
+    except MissingPermissions:
+        await ctx.send(f"{member.mention} is too powerful")
 
 
 # command to kick yourself from the server
-@bot.command(name = "sudoku")
+@bot.command(name="sudoku")
 async def sudoku(ctx):
     await ctx.message.author.kick()
 
